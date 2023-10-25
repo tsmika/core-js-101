@@ -328,10 +328,24 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+
+function removeCorrectPairs(str) {
+  let currStr = str;
+  const pairsBrackets = ['()', '[]', '{}', '<>'];
+
+  for (let i = 0; i < currStr.length - 1; i += 1) {
+    const currPair = `${currStr[i]}${currStr[i + 1]}`;
+    if (pairsBrackets.includes(currPair)) {
+      currStr = currStr.slice(0, i) + currStr.slice(i + 2, currStr.length);
+      return removeCorrectPairs(currStr);
+    }
+  }
+  return currStr;
 }
 
+function isBracketsBalanced(str) {
+  return removeCorrectPairs(str).length === 0;
+}
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
